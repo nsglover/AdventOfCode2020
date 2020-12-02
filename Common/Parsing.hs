@@ -1,4 +1,4 @@
-module Common.Parsin(splitOn, trimLeft, trimRight, trimEdges, trim,
+module Common.Parsing(splitOn, trimLeft, trimRight, trimEdges, trim,
 removeFirstN, removeAll, removeChars, replaceFirstN, replaceAll, replaceChars) where
 
 -- | Splits a string into substrings separated by a given delimiter (the delimiter is removed)
