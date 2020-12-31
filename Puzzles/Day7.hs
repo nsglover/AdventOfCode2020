@@ -20,11 +20,11 @@ parse :: String -> BagRule
 parse s = 
   let 
     s' = splitOn ' ' s 
-    container = (s' !! 0) ++ " " ++ (s' !! 1)
+    container = head s' ++ " " ++ (s' !! 1)
     s'' = splitOn ',' (foldl1 (\s1 s2 -> s1 ++ " " ++ s2) (drop 4 s'))
-    contents = if (s'' !! 0) == "no other bags." then [] else
+    contents = if head s'' == "no other bags." then [] else
       let
-        toPair ss = ((ss !! 1) ++ " " ++ (ss !! 2), read (ss !! 0))
+        toPair ss = ((ss !! 1) ++ " " ++ (ss !! 2), read (head ss))
         attr = map (toPair . splitOn ' ') s''
       in attr
   in (container, contents)

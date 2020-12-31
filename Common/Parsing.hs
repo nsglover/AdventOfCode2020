@@ -2,9 +2,9 @@ module Common.Parsing(splitOn, trimLeft, trimRight, trimEdges, trim,
 removeFirstN, removeAll, removeChars, replaceFirstN, replaceAll, replaceChars) where
 
 -- | Splits a string into substrings separated by a given delimiter (the delimiter is removed)
-splitOn :: Char -> String -> [String]
-splitOn _ "" = []
-splitOn c s = if fst split == "" then splitOn c rest else fst split : splitOn c (snd split)
+splitOn :: Eq t => t -> [t] -> [[t]]
+splitOn _ [] = []
+splitOn c s = if null (fst split) then splitOn c rest else fst split : splitOn c (snd split)
   where split = break (c==) s
         (_:rest) = snd split
 

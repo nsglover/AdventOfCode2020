@@ -18,15 +18,15 @@ toBin 0 = [0]
 toBin n = toBin (n `quot` 2) ++ [n `rem` 2]
 
 toBinStr :: String -> String
-toBinStr ns = let bs = foldl1 (++) $ map show $ toBin (read ns) in (take (36 - length bs) (repeat '0')) ++ bs
+toBinStr ns = let bs = foldl1 (++) $ map show $ toBin (read ns) in replicate (36 - length bs) '0' ++ bs
 
 binStrToInt :: String -> Integer
-binStrToInt s = foldl1 (+) $ zipWith (\n c -> n * (if c == '0' then 0 else 1)) (map (2^) [0..]) (reverse s)
+binStrToInt s = sum $ zipWith (\n c -> n * (if c == '0' then 0 else 1)) (map (2^) [0..]) (reverse s)
 
 parse :: String -> (Op, String)
 parse s = let [x, y] = map P.trim (P.splitOn '=' s)
           in case take 4 x of "mask" -> (MaskSet, y)
-                              _ -> (MemSet ((P.splitOn '[' (P.removeAll ']' x)) !! 1), toBinStr y)
+                              _ -> (MemSet (P.splitOn '[' (P.removeAll ']' x) !! 1), toBinStr y)
 
 combos :: String -> [String]
 combos = helper []

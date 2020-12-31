@@ -12,10 +12,10 @@ instance Solve Day where
 type Value = (Char, [(Int, Int)])
 
 points :: [String] -> [(Int, Int)]
-points ls = let (rows, cols) = (length ls - 1, length (ls !! 0) - 1) in [(i, j) | i <- [0..rows], j <- [0..cols]]
+points ls = let (rows, cols) = (length ls - 1, length (head ls) - 1) in [(i, j) | i <- [0..rows], j <- [0..cols]]
 
 inBounds :: (Int, Int) -> [String] -> Bool
-inBounds (i, j) ls = 0 <= i && i < length ls && 0 <= j && j < length (ls !! 0)
+inBounds (i, j) ls = 0 <= i && i < length ls && 0 <= j && j < length (head ls)
 
 neighborlessMap :: [String] -> Map (Int, Int) Value
 neighborlessMap ls = 

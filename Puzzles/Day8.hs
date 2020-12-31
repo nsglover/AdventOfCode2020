@@ -12,7 +12,7 @@ instance Solve Day where
 
 parse :: [String] -> Array Int (String, Int)
 parse ls = A.listArray (0, length ls - 1) $ map (toPair . splitOn ' ' . removeAll '+') ls
-  where toPair xs = (xs !! 0, read (xs !! 1))
+  where toPair xs = (head xs, read (xs !! 1))
 
 runSafe :: Array Int (String, Int) -> (Bool, Int)
 runSafe t = helper 0 0 (fmap (\(s, n) -> (s, n, 0)) t)
@@ -25,7 +25,7 @@ runSafe t = helper 0 0 (fmap (\(s, n) -> (s, n, 0)) t)
                                                               "nop" -> helper (ix + 1) acc newTape
 
 runToTermination :: Array Int (String, Int) -> Int
-runToTermination t = helper 0 t
+runToTermination = helper 0
   where helper ix tape =
           let
             (op, _) = tape ! ix

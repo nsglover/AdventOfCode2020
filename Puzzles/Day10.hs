@@ -12,7 +12,7 @@ instance Solve Day where
     in show (ones * (threes + 1))
   part2 _ ls =
     let
-      j = (jumps (0 : (sort . map read) ls))
+      j = jumps (0 : (sort . map read) ls)
     in show $ (product . map (waysToSum . length) . filter (\x -> head x == 1) . group) j
 
 jumps :: [Int] -> [Int]

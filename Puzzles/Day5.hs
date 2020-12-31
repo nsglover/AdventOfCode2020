@@ -5,7 +5,7 @@ import Data.List
 
 data Day = Day
 instance Solve Day where
-  part1 _ ls = show $ foldl1 max $ map (seatId . position) ls
+  part1 _ ls = show $ maximum $ map (seatId . position) ls
   part2 _ ls = show $ findSeat $ sort $ map (seatId . position) ls
 
 seatId (r, c) = 8 * r + c

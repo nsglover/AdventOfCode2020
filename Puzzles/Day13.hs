@@ -4,6 +4,7 @@ import Common.Solution
 import qualified Common.Parsing as P
 import Data.List
 import Data.Ord
+import Data.Bifunctor ( Bifunctor(second) )
 
 data Day = Day
 instance Solve Day where
@@ -12,7 +13,7 @@ instance Solve Day where
   part2 _ ls = show ((-n) `mod` k) where (n, k) = foldl1 reduce (parse ls)
 
 parse :: [String] -> [(Integer, Integer)]
-parse ls = map (\(i, s) -> (i, read s)) $ filter ((/= "x") . snd) $ zip [0..] $ P.splitOn ',' (ls !! 1)
+parse ls = map (second read) $ filter ((/= "x") . snd) $ zip [0..] $ P.splitOn ',' (ls !! 1)
 
 bezout :: Integer -> Integer -> (Integer, Integer)
 bezout a b = helper (a, b) (1, 0) (0, 1)
