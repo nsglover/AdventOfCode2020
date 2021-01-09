@@ -27,13 +27,13 @@ trim = trim' . trimEdges
   where trim' :: String -> String
         trim' [] = []
         trim' [x] = [x]
-        trim' (x:y:xs) = if x == ' ' then (if y == ' ' then trim' (y:xs) else x:(trim' (y:xs))) else x:(trim' (y:xs))
+        trim' (x:y:xs) = if x == ' ' && y == ' ' then trim' (y:xs) else x:trim' (y:xs)
 
 -- | Removes first n occurrences of the character c in string s
 removeFirstN :: Char -> Int -> String -> String
 removeFirstN _ _ "" = ""
 removeFirstN _ 0 s = s
-removeFirstN c n (x:xs) = if x == c then removeFirstN c (n - 1) xs else x:(removeFirstN c n xs)
+removeFirstN c n (x:xs) = if x == c then removeFirstN c (n - 1) xs else x:removeFirstN c n xs
 
 -- | Removes all occurrences of the character c in string s
 removeAll :: Char -> String -> String
@@ -42,21 +42,20 @@ removeAll c (x:xs) = if x == c then removeAll c xs else x : removeAll c xs
 
 -- | Removes all occurences of multiple given characters in string s
 removeChars :: [Char] -> String -> String
-removeChars [] s = s
-removeChars (c:cs) s = removeChars cs (removeAll c s)
+removeChars = flip (foldl (flip removeAll))
 
 -- | Replaces first n occurrences of the character c with character c' in string s
 replaceFirstN :: Char -> Char -> Int -> String -> String
 replaceFirstN _ _ _ "" = ""
 replaceFirstN _ _ 0 s = s
-replaceFirstN c c' n (x:xs) = if x == c then c':(replaceFirstN c c' (n - 1) xs) else x:(replaceFirstN c c' n xs)
+replaceFirstN c c' n (x:xs) = if x == c then c':replaceFirstN c c' (n - 1) xs else x:replaceFirstN c c' n xs
 
 -- | Replaces all occurrences of the character c with character c' in string s
 replaceAll :: Char -> Char -> String -> String
 replaceAll _ _ [] = []
-replaceAll c c' (x:xs) = if x == c then c':(replaceAll c c' xs) else x : replaceAll c c' xs
+replaceAll c c' (x:xs) = if x == c then c':replaceAll c c' xs else x : replaceAll c c' xs
 
 -- | Replaces all occurrences of multiple given characters with character c' in string s
 replaceChars :: [Char] -> Char -> String -> String
 replaceChars _ _ [] = []
-replaceChars cs c' (x:xs) = if x `elem` cs then c':(replaceChars cs c' xs) else x : replaceChars cs c' xs
+replaceChars cs c' (x:xs) = if x `elem` cs then c':replaceChars cs c' xs else x : replaceChars cs c' xs
